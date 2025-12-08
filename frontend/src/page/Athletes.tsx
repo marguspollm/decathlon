@@ -7,13 +7,15 @@ export default function Athletes() {
   useEffect(() => {
     fetch("http://localhost:8080/athletes")
       .then((res) => res.json())
-      .then(setAthleteList);
+      .then(setAthleteList)
+      .catch((err) => console.error(err));
   }, []);
 
   const handleClick = (id: number) => {
     fetch(`http://localhost:8080/scores/athlete/${id}`)
       .then((res) => res.json())
-      .then(r =>alert(`${r.athlete.firstName} ${r.athlete.lastName} : ${r.points}`));
+      .then(r =>alert(`${r.athlete.firstName} ${r.athlete.lastName} : ${r.points}`))
+      .catch((err) => console.error(err));
   };
 
   return (

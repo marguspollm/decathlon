@@ -56,7 +56,7 @@ export default function AddResult() {
         body: JSON.stringify(form),
       })
       .then((res) => res.json())
-      .then(r =>alert(`Added`));
+      .then(() =>alert(`Added`));
     } catch (err) {
       alert(`Error: ${(err as Error).message}`);
     }
