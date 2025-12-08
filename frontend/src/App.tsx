@@ -5,7 +5,7 @@ import Athletes from "./page/Athletes";
 import AddResult from "./page/AddResult";
 
 function App() {
-  const [page, setPage] = useState<"addAthlete" | "addResult" | "results" | "athletes">("results");
+  const [page, setPage] = useState<"addAthlete" | "addResult" | "athletes">("athletes");
 
   return (
     <div>
