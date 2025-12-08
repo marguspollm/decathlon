@@ -22,7 +22,7 @@ public class ScoreService {
 
     public AthleteScore getAthleteScores(Long id){
         List<Score> athleteScore = scoreRepository.findByAthlete_Id(id);
-        Athlete athlete =athleteService.getAthlete(id);
+        Athlete athlete = athleteService.getAthlete(id);
         int pointsSum = 0;
 
         for (Score s : athleteScore) {
