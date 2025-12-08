@@ -6,20 +6,14 @@ import ee.margus.decathlon.service.ScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
 public class ScoreController {
     @Autowired
     private ScoreService scoreService;
 
-    @GetMapping("scores")
-    public List<AthleteScore> getAllAthleteScores(){
-        return  scoreService.getAllAthleteScores();
-    }
-
     @GetMapping("scores/athlete/{id}")
-    public List<Score> getPersonScores(@PathVariable Long id){
+    public AthleteScore getAthleteScore(@PathVariable Long id){
         return scoreService.getAthleteScores(id);
     }
     

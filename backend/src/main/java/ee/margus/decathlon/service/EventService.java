@@ -15,4 +15,8 @@ public class EventService {
     public List<Event> getEvents(){
         return eventRepository.findAll();
     }
+
+    public Event getEventById(Long id){
+        return eventRepository.findById(id).orElseThrow(() -> new RuntimeException("Event doesn't exist!"));
+    }
 }

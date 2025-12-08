@@ -1,48 +1,39 @@
 package ee.margus.decathlon.service;
 
+import ee.margus.decathlon.entity.Athlete;
 import ee.margus.decathlon.entity.Event;
 import ee.margus.decathlon.entity.Score;
 import ee.margus.decathlon.model.AthleteScore;
-import ee.margus.decathlon.repository.EventRepository;
 import ee.margus.decathlon.repository.ScoreRepository;
 import ee.margus.decathlon.util.ScoreCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class ScoreService {
     @Autowired
     private ScoreRepository scoreRepository;
     @Autowired
-    private EventRepository eventRepository;
+    private EventService eventService;
+    @Autowired
+    private AthleteService athleteService;
 
-    public List<AthleteScore> getAllAthleteScores() {
-        List<Score> scores = scoreRepository.findAll();
-        Map<Long, AthleteScore> athletePoints = new HashMap<>();
+    public AthleteScore getAthleteScores(Long id){
+        List<Score> athleteScore = scoreRepository.findByAthlete_Id(id);
+        Athlete athlete =athleteService.getAthlete(id);
+        int pointsSum = 0;
 
-        for (Score s : scores) {
-            athletePoints.merge(
-                    s.getAthlete().getId(),
-                    new AthleteScore(s.getAthlete(), s.getPoints()),
-                    (oldVal, newVal) ->
-                            new AthleteScore(oldVal.getAthlete(), oldVal.getPoints() + newVal.getPoints())
-            );
+        for (Score s : athleteScore) {
+            pointsSum += s.getPoints();
         }
 
-        return athletePoints.values().stream().toList();
-    }
-
-    public List<Score> getAthleteScores(Long id){
-        return scoreRepository.findByAthlete_Id(id);
+        return new AthleteScore(athlete, pointsSum);
     }
 
     public Score saveScores(Score score){
-        Event event = eventRepository.findById(score.getEvent().getId())
-                .orElseThrow(() -> new RuntimeException("Event id doesn't exist!"));
+        Event event = eventService.getEventById(score.getEvent().getId());
         Score saveScore = scoreRepository.findByAthlete_IdAndEvent_Id(score.getAthlete().getId(), score.getEvent().getId())
                 .orElse(new Score());
         int calculatedScore = ScoreCalculator.calculate(
