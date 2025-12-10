@@ -22,6 +22,6 @@ public class Athlete {
     private String country;
     private Integer age;
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Score> scores;
+    private List<Result> results;
 
 }

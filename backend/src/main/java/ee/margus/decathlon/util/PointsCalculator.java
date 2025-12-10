@@ -1,6 +1,6 @@
 package ee.margus.decathlon.util;
 
-public class ScoreCalculator {
+public class PointsCalculator {
 
     public static int calculate(double result,
                                 boolean isTrackEvent,

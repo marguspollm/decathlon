@@ -24,5 +24,5 @@ public class Event {
     private Double parameterC;
 
     @OneToMany
-    private List<Score> score;
+    private List<Result> results;
 }
