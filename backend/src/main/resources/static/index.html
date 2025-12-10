@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Decathlon</title>
+</head>
+<body>
+<h1>Decathlon</h1>
+
+<h2>Add Athlete</h2>
+<input type="text" id="firstName" placeholder="First Name"/>
+<input type="text" id="lastName" placeholder="Last Name"/>
+<input type="number" id="age" placeholder="Age"/>
+<input type="text" id="country" placeholder="Country"/>
+<button onclick="addAthlete()">Add Athlete</button>
+
+<h2>Add Event result</h2>
+<select id="event">${eventOptions}</select>
+<select id="athlete">${athleteOptions}</select>
+<input type="number" id="result" placeholder="Result"/>
+<button onclick="addResult()">Add Result</button>
+
+<h2>All Athletes</h2>
+<ul id="athleteList"></ul>
+
+<div id="athleteDetails" class="details"></div>
+
+<script>
+    async function customFetch(url, options = {}) {
+        try {
+            const response = await fetch(url, options);
+            const data = await response.json();
+            if (!response.ok) {
+                return { data: null, error: data.message };
+            }
+            return { data, error: null };
+
+        } catch (err) {
+            return { data: null, error: err.message };
+        }
+    }
+
+    async function loadEvents() {
+        const { data, error } = await customFetch('/events');
+        if (error) {
+            alert("Failed to load events: " + error);
+            return;
+         }
+
+        events = data;
+        const selectE = document.getElementById('event');
+        selectE.innerHTML = events.map(e => `<option value="${e.id}">${e.name}</option>`).join('');
+    }
+
+
+    async function loadAthletes() {
+        const { data, error } = await customFetch('/athletes');
+        if (error) {
+            alert("Failed to load athletes: " + error);
+            return;
+         }
+
+        athletes = data;
+        const selectA = document.getElementById('athlete');
+        selectA.innerHTML = athletes.map(a => `<option value="${a.id}">${a.firstName} ${a.lastName}</option>`).join('');
+    }
+
+     async function loadAthleteResults() {
+         const { data, error } = await customFetch('/results');
+
+         if (error) {
+            alert("Failed to load athletes points: " + error);
+            return;
+         }
+
+         const athletes = data;
+         const list = document.getElementById('athleteList');
+         list.innerHTML = '';
+         athletes.forEach(a => {
+             const li = document.createElement('li');
+             const link = document.createElement('a');
+             link.href = '#';
+             link.textContent = a.athlete.firstName + " " + a.athlete.lastName + " : " + a.points;
+             link.onclick = () => showAthleteResults(a.athlete.id);
+             li.appendChild(link);
+             list.appendChild(li);
+         });
+    }
+
+    async function addAthlete() {
+         const firstName = document.getElementById('firstName').value;
+         const lastName = document.getElementById('lastName').value;
+         const country = document.getElementById('country').value;
+         const age = document.getElementById('age').value;
+
+         const { data, error } = await customFetch('/athletes', {
+             method: 'POST',
+             headers: {'Content-Type': 'application/json'},
+             body: JSON.stringify({firstName, lastName, country, age})
+         });
+
+         if (error) {
+            alert("Failed to add athlete: " + error);
+            return;
+         }
+
+         loadAthleteResults();
+    }
+
+    async function showAthleteResults(id) {
+         const { data, error } = await customFetch('results/athlete/' + id);
+
+         if (error) {
+            alert("Failed to load athlete result: " + error);
+            return;
+         }
+
+         const athleteResults = data;
+         const details = document.getElementById('athleteDetails');
+         details.innerHTML = `<h2>${athleteResults.athlete.firstName} ${athleteResults.athlete.lastName}</h2>`;
+         let resultsHtml = '<h3>Results</h3><ul>';
+         athleteResults.results.forEach(s => {
+             resultsHtml += `<li>${s.event.name}: ${s.points}</li>`;
+         });
+         resultsHtml += '</ul>';
+         details.innerHTML += resultsHtml;
+    }
+
+    async function addResult() {
+         const event = document.getElementById('event').value;
+         const athleteId = document.getElementById('athlete').value;
+         const result = document.getElementById('result').value;
+
+         let postResultObject = { athlete: { id: athleteId }, event: { id: event }, result: result };
+
+         const { data, error } = await customFetch('/results', {
+             method: 'POST',
+             headers: {'Content-Type': 'application/json'},
+             body: JSON.stringify(postResultObject)
+         });
+
+         if (error) {
+            alert("Failed to save athlete result: " + error);
+            return;
+         }
+
+         showAthleteResults(athleteId);
+         loadAthleteResults();
+    }
+
+    window.onload =  async () => {
+        await loadAthleteResults();
+        await loadEvents();
+        await loadAthletes()
+    }
+</script>
+</body>
+</html>

@@ -33,7 +33,7 @@ export default function AddAthlete() {
 
   return (
     <div>
-      <h2>Add User</h2>
+      <h2>Add Athlete</h2>
       <form onSubmit={handleSubmit}>
         <label>First name:</label>
         <input
