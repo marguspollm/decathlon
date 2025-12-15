@@ -13,7 +13,7 @@ public class AthleteService {
     @Autowired
     private AthleteRepository athleteRepository;
 
-    public List<Athlete> getAtheltes(){
+    public List<Athlete> getAthletes(){
         return athleteRepository.findAll();
     }
 
@@ -23,7 +23,7 @@ public class AthleteService {
     }
 
     public Athlete getAthlete(Long id){
-        return athleteRepository.findById(id).orElseThrow();
+        return athleteRepository.findById(id).orElseThrow(() -> new RuntimeException("Athlete not found!"));
     }
 
 }

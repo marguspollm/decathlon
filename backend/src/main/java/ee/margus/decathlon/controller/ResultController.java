@@ -25,6 +25,6 @@ public class ResultController {
     
     @PostMapping("results")
     public Result saveResult(@RequestBody Result result){
-        return resultService.saveResult(result);
+        return resultService.addResult(result);
     }
 }

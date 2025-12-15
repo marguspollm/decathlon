@@ -14,7 +14,7 @@ public class AthleteController {
 
     @GetMapping("athletes")
     public List<Athlete> getAthletes(){
-        return athleteService.getAtheltes();
+        return athleteService.getAthletes();
     }
 
     @GetMapping("athletes/{id}")

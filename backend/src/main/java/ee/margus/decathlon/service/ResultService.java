@@ -21,10 +21,8 @@ public class ResultService {
     private AthleteService athleteService;
 
     public List<AthleteResult> getAthletesResults(){
-        List<Athlete> athletes = athleteService.getAtheltes();
-        return athletes.stream().map( ath -> {
-            return getAthleteResults(ath.getId());
-        }).toList();
+        List<Athlete> athletes = athleteService.getAthletes();
+        return athletes.stream().map( ath -> getAthleteResults(ath.getId())).toList();
     }
 
     public AthleteResult getAthleteResults(Long id){
@@ -39,7 +37,7 @@ public class ResultService {
         return new AthleteResult(athlete, pointsSum, athleteResult);
     }
 
-    public Result saveResult(Result result){
+    public Result addResult(Result result){
         Event event = eventService.getEventById(result.getEvent().getId());
         Result saveResult = resultRepository.findByAthlete_IdAndEvent_Id(result.getAthlete().getId(), result.getEvent().getId())
                 .orElse(new Result());
@@ -56,7 +54,6 @@ public class ResultService {
         saveResult.setResult(result.getResult());
         saveResult.setEvent(result.getEvent());
 
-        resultRepository.save(saveResult);
-        return result;
+        return resultRepository.save(saveResult);
     }
 }

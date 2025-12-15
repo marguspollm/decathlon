@@ -1,12 +1,13 @@
 package ee.margus.decathlon.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -22,7 +23,7 @@ public class Event {
     private Double parameterA;
     private Double parameterB;
     private Double parameterC;
-
-    @OneToMany
-    private List<Result> results;
+//
+//    @OneToMany
+//    private List<Result> results;
 }
