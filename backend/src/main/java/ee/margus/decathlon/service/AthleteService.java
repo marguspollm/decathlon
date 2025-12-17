@@ -13,16 +13,16 @@ public class AthleteService {
     @Autowired
     private AthleteRepository athleteRepository;
 
-    public List<Athlete> getAthletes(){
+    public List<Athlete> getAthletes() {
         return athleteRepository.findAll();
     }
 
-    public Athlete saveAthlete(Athlete athlete){
+    public Athlete saveAthlete(Athlete athlete) {
         Validator.validateAthlete(athlete);
         return athleteRepository.save(athlete);
     }
 
-    public Athlete getAthlete(Long id){
+    public Athlete getAthlete(Long id) {
         return athleteRepository.findById(id).orElseThrow(() -> new RuntimeException("Athlete not found!"));
     }
 

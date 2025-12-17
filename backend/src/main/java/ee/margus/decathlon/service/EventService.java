@@ -12,11 +12,11 @@ public class EventService {
     @Autowired
     private EventRepository eventRepository;
 
-    public List<Event> getEvents(){
+    public List<Event> getEvents() {
         return eventRepository.findAll();
     }
 
-    public Event getEventById(Long id){
+    public Event getEventById(Long id) {
         return eventRepository.findById(id).orElseThrow(() -> new RuntimeException("Event doesn't exist!"));
     }
 }

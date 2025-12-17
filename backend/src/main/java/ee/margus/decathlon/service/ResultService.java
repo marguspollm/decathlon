@@ -1,9 +1,9 @@
 package ee.margus.decathlon.service;
 
+import ee.margus.decathlon.dto.AthleteResult;
 import ee.margus.decathlon.entity.Athlete;
 import ee.margus.decathlon.entity.Event;
 import ee.margus.decathlon.entity.Result;
-import ee.margus.decathlon.dto.AthleteResult;
 import ee.margus.decathlon.repository.ResultRepository;
 import ee.margus.decathlon.util.PointsCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +20,12 @@ public class ResultService {
     @Autowired
     private AthleteService athleteService;
 
-    public List<AthleteResult> getAthletesResults(){
+    public List<AthleteResult> getAthletesResults() {
         List<Athlete> athletes = athleteService.getAthletes();
-        return athletes.stream().map( ath -> getAthleteResults(ath.getId())).toList();
+        return athletes.stream().map(ath -> getAthleteResults(ath.getId())).toList();
     }
 
-    public AthleteResult getAthleteResults(Long id){
+    public AthleteResult getAthleteResults(Long id) {
         List<Result> athleteResult = resultRepository.findByAthlete_Id(id);
         Athlete athlete = athleteService.getAthlete(id);
         int pointsSum = 0;
@@ -37,7 +37,7 @@ public class ResultService {
         return new AthleteResult(athlete, pointsSum, athleteResult);
     }
 
-    public Result addResult(Result result){
+    public Result addResult(Result result) {
         Event event = eventService.getEventById(result.getEvent().getId());
         Result saveResult = resultRepository.findByAthlete_IdAndEvent_Id(result.getAthlete().getId(), result.getEvent().getId())
                 .orElse(new Result());
@@ -47,7 +47,7 @@ public class ResultService {
                 event.getParameterA(),
                 event.getParameterB(),
                 event.getParameterC()
-                );
+        );
 
         saveResult.setPoints(calculatedScore);
         saveResult.setAthlete(result.getAthlete());

@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface ResultRepository extends JpaRepository<Result, Long> {
     List<Result> findByAthlete_Id(Long id);
+
     Optional<Result> findByAthlete_IdAndEvent_Id(Long athleteId, Long eventId);
 
 }
