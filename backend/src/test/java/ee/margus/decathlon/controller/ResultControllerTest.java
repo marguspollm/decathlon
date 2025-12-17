@@ -45,6 +45,7 @@ class ResultControllerTest {
 
     @Test
     void getAthleteResult() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
         AthleteResult athleteResult = new AthleteResult();
         Athlete athlete = new Athlete();
         Result result = new Result();
@@ -57,7 +58,7 @@ class ResultControllerTest {
         mockMvc.perform(get("/results/athlete/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(new ObjectMapper().writeValueAsString(athleteResult)));
+                .andExpect(content().json(objectMapper.writeValueAsString(athleteResult)));
     }
 
     @Test
