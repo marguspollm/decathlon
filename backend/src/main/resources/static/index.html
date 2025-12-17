@@ -127,11 +127,11 @@
     }
 
     async function addResult() {
-         const event = document.getElementById('event').value;
+         const eventId = document.getElementById('event').value;
          const athleteId = document.getElementById('athlete').value;
          const result = document.getElementById('result').value;
 
-         let postResultObject = { athlete: { id: athleteId }, event: { id: event }, result: result };
+         let postResultObject = { athlete: { id: athleteId }, event: { id: eventId }, result: result };
 
          const { data, error } = await customFetch('/results', {
              method: 'POST',

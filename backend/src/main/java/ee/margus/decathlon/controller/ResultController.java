@@ -1,7 +1,7 @@
 package ee.margus.decathlon.controller;
 
 import ee.margus.decathlon.entity.Result;
-import ee.margus.decathlon.model.AthleteResult;
+import ee.margus.decathlon.dto.AthleteResult;
 import ee.margus.decathlon.service.ResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

@@ -3,7 +3,7 @@ package ee.margus.decathlon.service;
 import ee.margus.decathlon.entity.Athlete;
 import ee.margus.decathlon.entity.Event;
 import ee.margus.decathlon.entity.Result;
-import ee.margus.decathlon.model.AthleteResult;
+import ee.margus.decathlon.dto.AthleteResult;
 import ee.margus.decathlon.repository.ResultRepository;
 import ee.margus.decathlon.util.PointsCalculator;
 import org.springframework.beans.factory.annotation.Autowired;

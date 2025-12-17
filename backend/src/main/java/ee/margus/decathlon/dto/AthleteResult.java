@@ -1,4 +1,4 @@
-package ee.margus.decathlon.model;
+package ee.margus.decathlon.dto;
 
 import ee.margus.decathlon.entity.Athlete;
 import ee.margus.decathlon.entity.Result;

@@ -3,7 +3,7 @@ package ee.margus.decathlon.service;
 import ee.margus.decathlon.entity.Athlete;
 import ee.margus.decathlon.entity.Event;
 import ee.margus.decathlon.entity.Result;
-import ee.margus.decathlon.model.AthleteResult;
+import ee.margus.decathlon.dto.AthleteResult;
 import ee.margus.decathlon.repository.ResultRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
